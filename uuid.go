@@ -22,6 +22,8 @@ import (
 // generates UUIDs in sequence from a random starting
 // point.
 type Generator struct {
+	// The constant seed. The first 8 bytes of this are
+	// copied into counter and then ignored thereafter.
 	seed    [24]byte
 	counter uint64
 }
@@ -34,6 +36,7 @@ func NewGenerator() (*Generator, error) {
 	if err != nil {
 		return nil, errors.New("cannot generate random seed: " + err.Error())
 	}
+	g.counter = binary.LittleEndian.Uint64(g.seed[:8])
 	return &g, nil
 }
 
@@ -55,12 +58,7 @@ func MustNewGenerator() *Generator {
 // It is OK to call this method concurrently.
 func (g *Generator) Next() [24]byte {
 	x := atomic.AddUint64(&g.counter, 1)
-	var counterBytes [8]byte
-	binary.LittleEndian.PutUint64(counterBytes[:], x)
-
 	uuid := g.seed
-	for i, b := range counterBytes {
-		uuid[i] ^= b
-	}
+	binary.LittleEndian.PutUint64(uuid[:8], x)
 	return uuid
 }
