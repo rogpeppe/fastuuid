@@ -1,3 +1,3 @@
-module github.com/rogpeppe/fastuuid
+module github.com/spellgen/fastuuid
 
 go 1.11
