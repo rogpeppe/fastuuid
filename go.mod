@@ -1,3 +1,3 @@
 module github.com/rogpeppe/fastuuid
 
-go 1.12
+go 1.11
