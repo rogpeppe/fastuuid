@@ -48,3 +48,12 @@ func BenchmarkNext(b *testing.B) {
 		g.Next()
 	}
 }
+
+func BenchmarkContended(b *testing.B) {
+	g := MustNewGenerator()
+	b.RunParallel(func(pb *testing.PB) {
+		for pb.Next() {
+			g.Next()
+		}
+	})
+}
