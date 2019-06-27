@@ -8,6 +8,19 @@
 // previously generated UUID.
 //
 // It ignores RFC 4122.
+//
+// By way of comparison with two other popular UUID-generation packages, github.com/satori/go.uuid
+// and github.com/google/uuid, here are some benchmarks:
+//
+//	BenchmarkNext-4              	128272185	         9.20 ns/op
+//	BenchmarkHex128-4            	14323180	        76.4 ns/op
+//	BenchmarkContended-4         	45741997	        26.4 ns/op
+//	BenchmarkSatoriNext-4        	 1231281	       967 ns/op
+//	BenchmarkSatoriHex128-4      	 1000000	      1041 ns/op
+//	BenchmarkSatoriContended-4   	 1765520	       666 ns/op
+//	BenchmarkGoogleNext-4        	 1256250	       958 ns/op
+//	BenchmarkGoogleHex128-4      	 1000000	      1044 ns/op
+//	BenchmarkGoogleContended-4   	 1746570	       690 ns/op
 package fastuuid
 
 import (
