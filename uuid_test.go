@@ -4,6 +4,9 @@ import (
 	"bytes"
 	"crypto/rand"
 	"testing"
+
+	google "github.com/google/uuid"
+	satori "github.com/satori/go.uuid"
 )
 
 func TestUUID(t *testing.T) {
@@ -115,17 +118,17 @@ func TestValidHex128(t *testing.T) {
 
 var _s string
 
-func BenchmarkHex128(b *testing.B) {
-	g := MustNewGenerator()
-	for i := 0; i < b.N; i++ {
-		_s = Hex128(g.Next())
-	}
-}
-
 func BenchmarkNext(b *testing.B) {
 	g := MustNewGenerator()
 	for i := 0; i < b.N; i++ {
 		g.Next()
+	}
+}
+
+func BenchmarkHex128(b *testing.B) {
+	g := MustNewGenerator()
+	for i := 0; i < b.N; i++ {
+		_s = Hex128(g.Next())
 	}
 }
 
@@ -134,6 +137,48 @@ func BenchmarkContended(b *testing.B) {
 	b.RunParallel(func(pb *testing.PB) {
 		for pb.Next() {
 			g.Next()
+		}
+	})
+}
+
+func BenchmarkSatoriNext(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		satori.NewV4()
+	}
+}
+
+func BenchmarkSatoriHex128(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		uuid := satori.NewV4()
+		_s = uuid.String()
+	}
+}
+
+func BenchmarkSatoriContended(b *testing.B) {
+	b.RunParallel(func(pb *testing.PB) {
+		for pb.Next() {
+			satori.NewV4()
+		}
+	})
+}
+
+func BenchmarkGoogleNext(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		google.New()
+	}
+}
+
+func BenchmarkGoogleHex128(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		uuid := google.New()
+		_s = uuid.String()
+	}
+}
+
+func BenchmarkGoogleContended(b *testing.B) {
+	b.RunParallel(func(pb *testing.PB) {
+		for pb.Next() {
+			google.New()
 		}
 	})
 }
