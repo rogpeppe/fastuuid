@@ -5,12 +5,10 @@
 Package fastuuid provides fast UUID generation of 192 bit universally unique
 identifiers.
 
-It also provides simple support for 128-bit RFC-4122-like UUID strings.
+It also provides simple support for 128-bit RFC-4122 V4 UUID strings.
 
 Note that the generated UUIDs are not unguessable - each UUID generated from a
 Generator is adjacent to the previously generated UUID.
-
-It ignores RFC 4122.
 
 By way of comparison with two other popular UUID-generation packages,
 github.com/satori/go.uuid and github.com/google/uuid, here are some benchmarks:
@@ -32,13 +30,14 @@ github.com/satori/go.uuid and github.com/google/uuid, here are some benchmarks:
 ```go
 func Hex128(uuid [24]byte) string
 ```
-Hex128 returns an RFC4122-like representation of the first 128 bits of the given
+Hex128 returns an RFC4122 V4 representation of the first 128 bits of the given
 UUID. For example:
 
-    f81d4fae-7dec-11d0-a765-00a0c91e6bf6.
+    f81d4fae-7dec-41d0-8765-00a0c91e6bf6.
 
-It does not bother to set the version or variant bits of the UUID, as they only
-serve to reduce the randomness.
+Note: before encoding, it swaps bytes 6 and 9 so that all the varying bits of
+the UUID as returned from Generator.Next are reflected in the Hex128
+representation.
 
 If you want unpredictable UUIDs, you might want to consider hashing the uuid
 (using SHA256, for example) before passing it to Hex128.

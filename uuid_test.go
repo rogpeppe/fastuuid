@@ -65,7 +65,8 @@ func TestHex128(t *testing.T) {
 	for i := range b {
 		b[i] = byte(i + 1)
 	}
-	got, want := Hex128(b), "01020304-0506-0708-090a-0b0c0d0e0f10"
+	// Note: byte 6 is swapped with byte 9.
+	got, want := Hex128(b), "01020304-0506-4a08-8907-0b0c0d0e0f10"
 	if got != want {
 		t.Fatalf("unexpected Hex128 result; got %q want %q", got, want)
 	}
