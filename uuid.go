@@ -138,7 +138,7 @@ func ValidHex128(id string) bool {
 func isValidHex(s string) bool {
 	for i := 0; i < len(s); i++ {
 		c := s[i]
-		if !('0' <= c && c <= '9' || 'a' <= c && c <= 'f') {
+		if !('0' <= c && c <= '9' || 'a' <= c && c <= 'f' || 'A' <= c && c <= 'F') {
 			return false
 		}
 	}
