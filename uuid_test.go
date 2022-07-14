@@ -102,6 +102,21 @@ var validHex128Tests = []struct {
 }, {
 	u:     "01020304-0506-0708-090a-0b0c0d0e0f1/",
 	valid: false,
+}, {
+	u:     "EDFD5BB7-8AEE-4C47-B774-FE7FEF221AAF",
+	valid: true,
+}, {
+	u:     "edfd5bb7-8AEE-4C47-B774-FE7FEF221AAF",
+	valid: true,
+}, {
+	u:     "BBBBB-7816-4BB3-B76E-90b497952115",
+	valid: false,
+}, {
+	u:     "df42c632-2176-PPPP-87a6-949d78e057ae",
+	valid: false,
+}, {
+	u:     "df42c632-2176-PP-87a6-949d78e057ZZ",
+	valid: false,
 }}
 
 func TestValidHex128(t *testing.T) {
