@@ -1,14 +1,14 @@
 // Package fastuuid provides fast UUID generation of 192 bit
 // universally unique identifiers.
 //
-// It also provides simple support for 128-bit RFC-4122 V4 UUID strings.
+// It also provides simple support for 128-bit [RFC 4122] V4 UUID strings.
 //
 // Note that the generated UUIDs are not unguessable - each
-// UUID generated from a Generator is adjacent to the
+// UUID generated from a [Generator] is adjacent to the
 // previously generated UUID.
 //
-// By way of comparison with two other popular UUID-generation packages, github.com/satori/go.uuid
-// and github.com/google/uuid, here are some benchmarks:
+// By way of comparison with two other popular UUID-generation packages, [github.com/satori/go.uuid]
+// and [github.com/google/uuid], here are some benchmarks:
 //
 //	BenchmarkNext-4              	128272185	         9.20 ns/op
 //	BenchmarkHex128-4            	14323180	        76.4 ns/op
@@ -19,6 +19,8 @@
 //	BenchmarkGoogleNext-4        	 1256250	       958 ns/op
 //	BenchmarkGoogleHex128-4      	 1000000	      1044 ns/op
 //	BenchmarkGoogleContended-4   	 1746570	       690 ns/op
+//
+// [RFC 4122]: https://datatracker.ietf.org/doc/html/rfc4122
 package fastuuid
 
 import (
@@ -39,8 +41,8 @@ type Generator struct {
 	counter uint64
 }
 
-// NewGenerator returns a new Generator.
-// It can fail if the crypto/rand read fails.
+// NewGenerator returns a new [Generator].
+// It can fail if the [crypto/rand] read fails.
 func NewGenerator() (*Generator, error) {
 	var g Generator
 	_, err := rand.Read(g.seed[:])
@@ -51,7 +53,7 @@ func NewGenerator() (*Generator, error) {
 	return &g, nil
 }
 
-// MustNewGenerator is like NewGenerator
+// MustNewGenerator is like [NewGenerator]
 // but panics on failure.
 func MustNewGenerator() *Generator {
 	g, err := NewGenerator()
@@ -79,19 +81,21 @@ func (g *Generator) Hex128() string {
 	return Hex128(g.Next())
 }
 
-// Hex128 returns an RFC4122 V4 representation of the
+// Hex128 returns an [RFC 4122] V4 representation of the
 // first 128 bits of the given UUID. For example:
 //
 //	f81d4fae-7dec-41d0-8765-00a0c91e6bf6
 //
 // Note: before encoding, it swaps bytes 6 and 9
 // so that all the varying bits of the UUID as
-// returned from Generator.Next are reflected
+// returned from [Generator.Next] are reflected
 // in the Hex128 representation.
 //
 // If you want unpredictable UUIDs, you might want to consider
 // hashing the uuid (using SHA256, for example) before passing it
 // to Hex128.
+//
+// [RFC 4122]: https://datatracker.ietf.org/doc/html/rfc4122
 func Hex128(uuid [24]byte) string {
 	// As fastuuid only varies the first 8 bytes of the UUID and we
 	// don't want to lose any of that variance, swap the UUID
@@ -116,8 +120,8 @@ func Hex128(uuid [24]byte) string {
 	return string(b)
 }
 
-// ValidHex128 reports whether id is a valid UUID as returned by Hex128
-// and various other UUID packages, such as github.com/satori/go.uuid's
+// ValidHex128 reports whether id is a valid UUID as returned by [Hex128]
+// and various other UUID packages, such as [github.com/satori/go.uuid]'s
 // NewV4 function.
 //
 // Note that it does not allow upper case hex.
