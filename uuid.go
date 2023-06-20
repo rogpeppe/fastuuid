@@ -82,7 +82,7 @@ func (g *Generator) Hex128() string {
 // Hex128 returns an RFC4122 V4 representation of the
 // first 128 bits of the given UUID. For example:
 //
-//	f81d4fae-7dec-41d0-8765-00a0c91e6bf6.
+//	f81d4fae-7dec-41d0-8765-00a0c91e6bf6
 //
 // Note: before encoding, it swaps bytes 6 and 9
 // so that all the varying bits of the UUID as
